@@ -42,7 +42,7 @@ public class UserController {
 
     @CrossOrigin
     @DeleteMapping("/api/v1/users/{id}/{rev}")
-    public void deleteAuthor(@PathVariable("id") String id, @PathVariable("rev") String rev) {
+    public void deleteUser(@PathVariable("id") String id, @PathVariable("rev") String rev) {
         Response response = db.remove(id, rev);
     }
 
@@ -55,7 +55,11 @@ public class UserController {
                 eq("user_email", user_email)).
                 build(), UserTO.class);
 
-        return user.getDocs().get(0);
+        if(user.getDocs().size() > 0) {
+            return user.getDocs().get(0);
+        }else{
+            return new UserTO();
+        }
     }
 
 }
